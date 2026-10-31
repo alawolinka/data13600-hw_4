@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Log in </title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 40px; }
+        .bio { max-width: 600px; margin: 0 auto; }
+        .username { font-weight: bold; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+    <div class="bio">
+        <h1>Log in</h1>
+        <form method="POST">
+            {% csrf_token %}
+
+            <p><label>Username: <input type="text" name="username"></label></p>
+
+            <p><label>Password: <input type="password" name="password"></label></p>
+
+            <button type="submit">Log in</button>
+        </form>
+
+    </div>
+</body>
+</html>
