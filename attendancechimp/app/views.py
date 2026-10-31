@@ -41,3 +41,9 @@ def index(request):
     now = datetime.now(tz=CDT).strftime("%H:%M")
     context = {"current_time": now}
     return render(request, 'app/index.html', context)
+
+def new_user(request):
+    if request.method == "GET":
+        return render(request, 'app/new.html')
+    else:
+        return HttpResponse("Method Not Allowed", status=405)

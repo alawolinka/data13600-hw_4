@@ -7,4 +7,5 @@ urlpatterns = [
     path('sum', views.sum_view, name='sum'),
     path('', views.index, name='home'),
     path('index.html', views.index, name='index_html'),
+    path('new', views.new_user, name='new')
 ]
