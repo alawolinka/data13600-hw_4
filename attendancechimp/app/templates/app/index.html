@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AttendanceChimp</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 40px; }
+        .bio { max-width: 600px; margin: 0 auto; }
+        .username { font-weight: bold; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+<div class="bio">
+    <h1>AttendanceChimp</h1>
+    <p>Electronic class attendance tracking application. Each lecture is assigned a random QR code,
+        students photograph the QR code and upload the image for attendance.
+    </p>
+    <hr>
+    <p>Current time (CST): {{ current_time }}</p>
+
+    {% if user.is_authenticated %}
+        <span class="username">{{ user.username }}</span>
+    {% else %}
+        Not logged in.
+    {% endif %}
+
+</div>
+</body>
+</html>

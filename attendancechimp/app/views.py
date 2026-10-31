@@ -3,6 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
 from zoneinfo import ZoneInfo
+from django.shortcuts import render
 
 from django.http import HttpRequest, HttpResponse
 
@@ -34,3 +35,9 @@ def sum_view(request: HttpRequest) -> HttpResponse:
         return HttpResponse("Bad Request: n1 and n2 must be numbers", status=400, content_type="text/plain")
 
     return HttpResponse(_decimal_to_str(val), content_type="text/plain")
+
+def index(request):
+    """Render the home page (index.html)."""
+    now = datetime.now(tz=CDT).strftime("%H:%M")
+    context = {"current_time": now}
+    return render(request, 'app/index.html', context)
