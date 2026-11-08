@@ -103,3 +103,23 @@ def createUser(request):
 # ---------------------------------------------------------------------------
 # HW5  — courses, lectures, QR uploads, dump
 # ---------------------------------------------------------------------------
+
+
+def new_course(request):
+    if request.method == "GET":
+        return render(request, 'app/new_course.html')
+    else:
+        return HttpResponse("Method Not Allowed", status=403)
+
+def new_lecture(request):
+    if request.method == "GET":
+        return render(request, 'app/new_lecture.html')
+    else:
+        return HttpResponse("Method Not Allowed", status=403)
+
+
+def new_qr_upload(request):
+    if request.method == "GET":
+        return render(request, 'app/new_qr_upload.html')
+    else:
+        return HttpResponse("Method Not Allowed", status=403)

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new course</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 40px; }
+        .bio { max-width: 600px; margin: 0 auto; }
+    </style>
+</head>
+<body>
+    <div class="bio">
+        <h1>Add new course</h1>
+        <form action="/app/createCourse" method="POST">
+            {% csrf_token %}
+
+            <p><label>Course name: <input type="text" name="course-name"></label></p>
+
+            <p><label>Start time: <input type="time" name="start-time"></label></p>
+
+            <p><label>End time: <input type="time" name="end-time"></label></p>
+
+            <p><strong>Class meets on:</strong></p>
+
+            <p><label><input type="checkbox" name="day-mon" value="1"> Monday</label></p>
+            <p><label><input type="checkbox" name="day-tue" value="1"> Tuesday </label></p>
+            <p><label><input type="checkbox" name="day-wed" value="1"> Wednesday </label></p>
+            <p><label><input type="checkbox" name="day-thu" value="1"> Thursday </label></p>
+            <p><label><input type="checkbox" name="day-fri" value="1"> Friday </label></p>
+
+            <button type="submit">Create course</button>
+        </form>
+
+    </div>
+</body>
+</html>

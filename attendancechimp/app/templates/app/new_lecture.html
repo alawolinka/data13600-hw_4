@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new lecture</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 40px; }
+        .bio { max-width: 600px; margin: 0 auto; }
+    </style>
+</head>
+<body>
+    <div class="bio">
+        <h1>Add new lecture</h1>
+        <form action="/app/createLecture" method="POST">
+            {% csrf_token %}
+
+            <p><label>Course name: <input type="text" name="choice"></label></p>
+
+            <button type="submit">Create lecture</button>
+        </form>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>QR code photo upload</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 40px; }
+        .bio { max-width: 600px; margin: 0 auto; }
+    </style>
+</head>
+<body>
+    <div class="bio">
+        <h1>QR code photo upload</h1>
+        <form action="/app/createQRCodeUpload" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <p><label>Photo: <input type="file" name="imageUpload"></label></p>
+
+            <button type="submit"> Upload </button>
+        </form>
+
+    </div>
+</body>
+</html>
