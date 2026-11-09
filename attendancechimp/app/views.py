@@ -179,3 +179,21 @@ def new_qr_upload(request):
         return render(request, 'app/new_qr_upload.html')
     else:
         return HttpResponse("Method Not Allowed", status=403)
+
+@csrf_exempt
+def createQRCodeUpload(request):
+    if request.method == "POST":
+
+        if not request.user.is_authenticated or not is_student(request.user):
+            return HttpResponse("Unauthorized", status=401)
+
+        image = request.FILES.get("imageUpload")
+
+        if not image:
+            return HttpResponse("image required", status=400)
+
+        QRCodeUpload.objects.create(student= request.user, image=image )
+
+        return HttpResponse("Success", status=200)
+    else:
+        return HttpResponse("Method Not Allowed", status=403)

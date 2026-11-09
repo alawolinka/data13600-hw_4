@@ -3,3 +3,4 @@ __pycache__/
 db.sqlite3
 attendancechimp/app/migrations/
 .DS_Store
+qr_uploads/
