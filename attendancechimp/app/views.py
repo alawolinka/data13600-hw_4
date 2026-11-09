@@ -150,6 +150,29 @@ def new_lecture(request):
     else:
         return HttpResponse("Method Not Allowed", status=403)
 
+@csrf_exempt
+def createLecture(request):
+    if request.method == "POST":
+
+        if not request.user.is_authenticated or not is_instructor(request.user):
+            return HttpResponse("Unauthorized", status=401)
+
+        course_name = request.POST.get("choice")
+
+        if not course_name:
+            return HttpResponse("course name required", status=400)
+
+        course = Course.objects.filter(name=course_name).first()
+
+        if course is None:
+            return HttpResponse("course not found", status=400)
+
+        Lecture.objects.create(course=course)
+
+        return HttpResponse("Success", status=200)
+    else:
+        return HttpResponse("Method Not Allowed", status=403)
+
 
 def new_qr_upload(request):
     if request.method == "GET":
