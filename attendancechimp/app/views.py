@@ -111,6 +111,39 @@ def new_course(request):
     else:
         return HttpResponse("Method Not Allowed", status=403)
 
+
+@csrf_exempt
+def createCourse(request):
+    if request.method == "POST":
+        if not request.user.is_authenticated or not is_instructor(request.user):
+            return HttpResponse("Unauthorized", status=401)
+
+        course_name = request.POST.get("course-name")
+        start_time = request.POST.get("start-time") or None
+        end_time = request.POST.get("end-time") or None
+
+        day_mon = "day-mon" in request.POST
+        day_tue = "day-tue" in request.POST
+        day_wed = "day-wed" in request.POST
+        day_thu = "day-thu" in request.POST
+        day_fri = "day-fri" in request.POST
+
+        if not course_name:
+            return HttpResponse("course name required", status=400)
+
+        if Course.objects.filter(name=course_name).exists():
+            return HttpResponse("course name taken", status=400)
+
+
+        Course.objects.create(name=course_name, instructor = request.user,
+                              start_time = start_time, end_time = end_time,
+                              day_mon = day_mon, day_tue = day_tue, day_wed= day_wed,
+                              day_thu = day_thu , day_fri = day_fri)
+
+        return HttpResponse("Success", status=200)
+    else:
+        return HttpResponse("Method Not Allowed", status=403)
+
 def new_lecture(request):
     if request.method == "GET":
         return render(request, 'app/new_lecture.html')
