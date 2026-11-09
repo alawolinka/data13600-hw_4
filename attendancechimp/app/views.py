@@ -16,6 +16,7 @@ from django.http import (HttpRequest, HttpResponse, HttpResponseForbidden,
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
+from django.http import JsonResponse
 from datetime import datetime
 import json
 import io
@@ -195,5 +196,24 @@ def createQRCodeUpload(request):
         QRCodeUpload.objects.create(student= request.user, image=image )
 
         return HttpResponse("Success", status=200)
+    else:
+        return HttpResponse("Method Not Allowed", status=403)
+
+def dumpUploads(request):
+    if request.method == "GET":
+
+        if not request.user.is_authenticated or not is_instructor(request.user):
+            return HttpResponse("Unauthorized", status=401)
+
+        data = []
+
+        for upload in QRCodeUpload.objects.all():
+            data.append({
+                "username": upload.student.username,
+                "upload_time": upload.uploaded_at.strftime("%Y-%m-%d %H:%M:%S"),
+
+            })
+
+        return JsonResponse(data, safe=False)
     else:
         return HttpResponse("Method Not Allowed", status=403)
