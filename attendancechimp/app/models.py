@@ -21,6 +21,7 @@ from django.contrib.auth.models import User
 import logging
 import string
 import random
+from zoneinfo import ZoneInfo
 
 logger = logging.getLogger(__name__)
 
@@ -138,4 +139,37 @@ def is_instructor(user):
 def is_student(user):
     """Return True if the user has a StudentProfile."""
     return hasattr(user, 'student_profile')
+
+
+def getUploadsForCourse(course):
+    """checks for upload time
+    outputs a list of valid QRCodeUpload objects"""
+
+    valid_uploads =[]
+    course_obj = (Course.objects.filter(name=course).first())
+
+    if course_obj is None:
+        return valid_uploads
+
+    if course_obj.start_time is None or course_obj.end_time is None:
+        return valid_uploads
+
+    uploads = QRCodeUpload.objects.filter(lecture__course=course_obj)
+
+    for upload in uploads:
+        local = upload.uploaded_at.astimezone(ZoneInfo("America/Chicago"))
+
+        if local.weekday() > 4:
+            continue
+
+        if not course_obj.meets_on_day(local.weekday()):
+            continue
+
+        if course_obj.start_time <= local.time() <= course_obj.end_time:
+            valid_uploads.append(upload)
+
+    return valid_uploads
+
+
+
 
