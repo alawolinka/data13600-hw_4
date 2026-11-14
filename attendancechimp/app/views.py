@@ -22,7 +22,7 @@ import json
 import io
 
 from .models import (InstructorProfile, StudentProfile, Course, Enrollment,
-                     Lecture, QRCodeUpload, is_instructor, is_student)
+                     Lecture, QRCodeUpload, is_instructor, is_student,getUploadsForCourse)
 
 #from .models import (getUploadsForCourse)
 
@@ -217,3 +217,30 @@ def dumpUploads(request):
         return JsonResponse(data, safe=False)
     else:
         return HttpResponse("Method Not Allowed", status=403)
+
+
+def getUploads(request):
+    if request.method == "GET":
+
+        if not request.user.is_authenticated or not is_instructor(request.user):
+            return HttpResponse("Unauthorized", status=401)
+
+        data = []
+
+        course = request.GET.get("course")
+
+        if not course:
+            return JsonResponse({"error": "Missing course parameter"}, status=400)
+
+        for upload in getUploadsForCourse(course):
+            data.append({
+                "username": upload.student.username,
+                "upload_time": upload.uploaded_at.strftime("%Y-%m-%d %H:%M:%S"),
+
+            })
+
+        return JsonResponse(data, safe=False)
+    else:
+        return HttpResponse("Method Not Allowed", status=403)
+
+
